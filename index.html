@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Avadh Ladani - AI/ML Engineer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="scroll-progress"></div>
+    <div class="bg-animation">
+        <div class="floating-shapes"></div>
+        <div class="floating-shapes"></div>
+        <div class="floating-shapes"></div>
+        <div class="floating-shapes"></div>
+    </div>
+
+    <div w3-include-html="modules/header.html"></div>
+    <div w3-include-html="modules/hero.html"></div>
+    <div w3-include-html="modules/about.html"></div>
+    <div w3-include-html="modules/skills.html"></div>
+    <div w3-include-html="modules/experience.html"></div>
+    <div w3-include-html="modules/projects.html"></div>
+    <div w3-include-html="modules/contact.html"></div>
+
+    <script src="js/main.js"></script>
+    <script>
+    // Simple HTML include function (from w3schools)
+    function includeHTML() {
+      var z, i, elmnt, file, xhttp;
+      z = document.querySelectorAll("[w3-include-html]");
+      for (i = 0; i < z.length; i++) {
+        elmnt = z[i];
+        file = elmnt.getAttribute("w3-include-html");
+        if (file) {
+          var xhr = new XMLHttpRequest();
+          xhr.onreadystatechange = function() {
+            if (this.readyState == 4) {
+              if (this.status == 200) {elmnt.innerHTML = this.responseText;}
+              if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
+              elmnt.removeAttribute("w3-include-html");
+              includeHTML();
+            }
+          }
+          xhr.open("GET", file, true);
+          xhr.send();
+          return;
+        }
+      }
+    }
+    includeHTML();
+    </script>
+</body>
+</html>
