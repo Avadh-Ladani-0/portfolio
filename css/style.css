@@ -117,7 +117,7 @@ body {
   animation: float 8s infinite ease-in-out;
   user-select: none;
   pointer-events: none;
-  opacity: 0.25;
+  opacity: 0.17;
   box-shadow: 0 0 5px rgba(4, 210, 251, 0.2);
   text-align: center;
   min-height: 40px;
