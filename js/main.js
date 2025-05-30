@@ -21,6 +21,8 @@ window.addEventListener("scroll", () => {
   document.querySelector(".scroll-progress").style.width = scrolled + "%";
 });
 
+
+
 // Header background on scroll
 window.addEventListener("scroll", () => {
   const header = document.querySelector("header");

@@ -1,26 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Avadh Ladani - AI/ML Engineer</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-    <div class="scroll-progress"></div>
-    <div class="bg-animation">
-      <span class="floating-tech">Python</span>
-      <span class="floating-tech">GenAI</span>
-      <span class="floating-tech">LLM</span>
-      <span class="floating-tech">AI</span>
-      <span class="floating-tech">Data Science</span>
-      <span class="floating-tech">NLP</span>
-      <span class="floating-tech">🤖</span>
-      <span class="floating-tech">Computer Vision</span>
-      <span class="floating-tech">LLM</span>
- 
-    </div>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <!-- background-wall now uses grid layout -->
+    <div class="background-wall-grid" id="backgroundWallGrid"></div>
 
+    <!-- Progress Bar -->
+    <div class="scroll-progress"></div>
+
+    <!-- Optional Static Floating Elements (can be removed) -->
+    <!-- <div class="bg-animation"> ... </div> -->
+
+    <!-- Modular Page Sections -->
     <div w3-include-html="modules/header.html"></div>
     <div w3-include-html="modules/hero.html"></div>
     <div w3-include-html="modules/about.html"></div>
@@ -29,32 +25,70 @@
     <div w3-include-html="modules/projects.html"></div>
     <div w3-include-html="modules/contact.html"></div>
 
+    <!-- Main Functionality -->
     <script src="js/main.js"></script>
+
+    <!-- Load HTML Modules -->
     <script>
-    // Simple HTML include function (from w3schools)
-    function includeHTML() {
-      var z, i, elmnt, file, xhttp;
-      z = document.querySelectorAll("[w3-include-html]");
-      for (i = 0; i < z.length; i++) {
-        elmnt = z[i];
-        file = elmnt.getAttribute("w3-include-html");
-        if (file) {
-          var xhr = new XMLHttpRequest();
-          xhr.onreadystatechange = function() {
-            if (this.readyState == 4) {
-              if (this.status == 200) {elmnt.innerHTML = this.responseText;}
-              if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
-              elmnt.removeAttribute("w3-include-html");
-              includeHTML();
-            }
+      function includeHTML() {
+        const z = document.querySelectorAll("[w3-include-html]");
+        for (let i = 0; i < z.length; i++) {
+          const elmnt = z[i];
+          const file = elmnt.getAttribute("w3-include-html");
+          if (file) {
+            fetch(file)
+              .then((response) => {
+                if (response.ok) return response.text();
+                else throw new Error("Page not found.");
+              })
+              .then((data) => {
+                elmnt.innerHTML = data;
+                elmnt.removeAttribute("w3-include-html");
+                includeHTML(); // Recursive for nested includes
+              })
+              .catch((err) => {
+                elmnt.innerHTML = err.message;
+              });
+            return;
           }
-          xhr.open("GET", file, true);
-          xhr.send();
-          return;
         }
       }
-    }
-    includeHTML();
+      includeHTML();
     </script>
-</body>
+
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        const keywords = [
+          "Python",
+          "GenAI",
+          "LLM",
+          "AI",
+          "Data Science",
+          "NLP",
+          "🤖",
+          "Computer Vision",
+          "Deep Learning",
+          "ML Ops",
+          "Prompting",
+          "RAG",
+          "LangChain",
+        ];
+
+        const grid = document.getElementById("backgroundWallGrid");
+        const totalCells = 200; // Increase for more density
+
+        for (let i = 0; i < totalCells; i++) {
+          const span = document.createElement("span");
+          span.className = "floating-tech";
+          span.innerText =
+            keywords[Math.floor(Math.random() * keywords.length)];
+
+          const delay = Math.random() * 10;
+          span.style.animationDelay = `${delay}s`;
+
+          grid.appendChild(span);
+        }
+      });
+    </script>
+  </body>
 </html>
