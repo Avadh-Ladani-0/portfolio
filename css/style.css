@@ -17,75 +17,6 @@ body {
     padding: 0 20px;
 }
 
-/* Tech Background with Robot Heads */
-.bg-animation {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    overflow: hidden;
-    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
-}
-
-.tech-pattern {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    opacity: 0.03;
-    background-image:
-        radial-gradient(circle at 25% 25%, #00d4ff 2px, transparent 2px),
-        radial-gradient(circle at 75% 75%, #00d4ff 1px, transparent 1px);
-    background-size: 50px 50px;
-    animation: patternMove 20s linear infinite;
-}
-
-.robot-doodle {
-    position: absolute;
-    font-size: 2rem;
-    color: rgba(0, 212, 255, 0.1);
-    animation: float 8s ease-in-out infinite;
-    user-select: none;
-    pointer-events: none;
-}
-
-.circuit-lines {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-image:
-        linear-gradient(90deg, rgba(0, 212, 255, 0.1) 1px, transparent 1px),
-        linear-gradient(180deg, rgba(0, 212, 255, 0.1) 1px, transparent 1px);
-    background-size: 100px 100px;
-    animation: circuitFlow 15s linear infinite;
-}
-
-@keyframes patternMove {
-    0% {
-        transform: translate(0, 0);
-    }
-
-    100% {
-        transform: translate(50px, 50px);
-    }
-}
-
-@keyframes circuitFlow {
-    0% {
-        opacity: 0.05;
-    }
-
-    50% {
-        opacity: 0.15;
-    }
-
-    100% {
-        opacity: 0.05;
-    }
-}
-
-
 
 .background-wall-grid {
   position: fixed;
@@ -95,7 +26,7 @@ body {
   height: 100%;
   z-index: -1;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
   gap: 20px;
   padding: 20px;
   background: linear-gradient(135deg, #000000 0%, #17172b 50%, #04113a 100%);
@@ -108,16 +39,17 @@ body {
   justify-content: center;
   color: rgba(194, 183, 228, 0.15);
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 0.75rem;
   backdrop-filter: blur(5px);
   background: rgba(0,0,0,0);
   border: 1px solid rgba(167, 220, 241, 0.2);
   border-radius: 10px;
-  padding: 0.5rem;
+  padding: 0.45rem;
   animation: float 8s infinite ease-in-out;
+  transition: transform 0.3s cubic-bezier(.25,.46,.45,.94);
   user-select: none;
   pointer-events: none;
-  opacity: 0.5;
+  opacity: 0.28;
   box-shadow: 0 0 5px rgba(0, 217, 255, 0.2);
   text-align: center;
   min-height: 40px;
@@ -125,10 +57,16 @@ body {
 
 @keyframes float {
   0%, 100% {
-    transform: translateY(0px);
+    transform: translateY(0px) translateX(0px);
+  }
+  25% {
+    transform: translateY(-5px) translateX(10px);
   }
   50% {
-    transform: translateY(-10px);
+    transform: translateY(-10px) translateX(0px);
+  }
+  75% {
+    transform: translateY(-5px) translateX(-10px);
   }
 }
 

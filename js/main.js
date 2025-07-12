@@ -58,6 +58,81 @@ document
     observer.observe(el);
   });
 
+
+function pauseFloatingAnimation() {
+  document.querySelectorAll('.floating-tech').forEach(el => {
+    el.style.animationPlayState = 'paused';
+  });
+}
+
+function resumeFloatingAnimation() {
+  document.querySelectorAll('.floating-tech').forEach(el => {
+    el.style.animationPlayState = 'running';
+    el.style.transform = '';
+  });
+}
+
+function handleRepel(x, y, options = {}) {
+  pauseFloatingAnimation();
+  const repelRadius = options.radius || 400;
+  const repelStrength = options.strength || 10;
+  const duration = options.duration || 0.3;
+
+  document.querySelectorAll('.floating-tech').forEach(el => {
+    el.style.transition = `transform ${duration}s cubic-bezier(.25,.46,.45,.94)`;
+    const rect = el.getBoundingClientRect();
+    const elX = rect.left + rect.width / 2;
+    const elY = rect.top + rect.height / 2;
+    const dx = elX - x;
+    const dy = elY - y;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+
+    if (dist < repelRadius) {
+      const angle = Math.atan2(dy, dx);
+      const repel = (1 - dist / repelRadius) * repelStrength;
+      const tx = Math.cos(angle) * repel;
+      const ty = Math.sin(angle) * repel;
+      el.style.transform = `translate(${tx}px, ${ty}px)`;
+    } else {
+      el.style.transform = '';
+    }
+  });
+
+  clearTimeout(window._resumeFloatTimeout);
+  window._resumeFloatTimeout = setTimeout(resumeFloatingAnimation, 500);
+}
+
+// Mouse move
+document.addEventListener('mousemove', function(e) {
+  handleRepel(e.clientX, e.clientY);
+});
+
+// Touch move
+document.addEventListener('touchmove', function(e) {
+  if (e.touches && e.touches.length > 0) {
+    const touch = e.touches[0];
+    handleRepel(touch.clientX, touch.clientY);
+  }
+}, {passive: false});
+
+// Ripple on click
+function rippleRepel(x, y) {
+  pauseFloatingAnimation();
+  handleRepel(x, y, { radius: 200, strength: 40, duration: 0.3 });
+  setTimeout(resumeFloatingAnimation, 400);
+}
+
+document.addEventListener('click', function(e) {
+  rippleRepel(e.clientX, e.clientY);
+});
+
+document.addEventListener('touchstart', function(e) {
+  if (e.touches && e.touches.length > 0) {
+    const touch = e.touches[0];
+    rippleRepel(touch.clientX, touch.clientY);
+  }
+}, {passive: false});
+
 // Add typing effect to hero subtitle
 function typeWriter(element, text, speed = 100) {
   let i = 0;
